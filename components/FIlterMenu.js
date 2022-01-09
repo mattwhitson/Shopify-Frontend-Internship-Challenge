@@ -86,9 +86,9 @@ const FilterMenu = ({
   };
 
   return (
-    <Menu as="section" className="ml-auto relative">
+    <Menu as="section" className="ml-auto relative dark:text-[#f7f7f7]">
       Posts from:
-      <Menu.Button className="bg-[#f7f7f7] ml-2 py-2 px-4 rounded focus:outline-none">
+      <Menu.Button className="bg-[#f7f7f7] ml-2 py-2 px-4 rounded focus:outline-none darkMode-dark-bg">
         <div className="flex items-center">
           {currentTimeframe}
           <ChevronDownIcon className="h-4 ml-2" />
@@ -102,8 +102,8 @@ const FilterMenu = ({
         leaveFrom="transform scale-100 opacity-100"
         leaveTo="transform scale-75 opacity-0"
       >
-        <Menu.Items className="absolute bg-[#f7f7f7] flex flex-col ml-[82px] mt-2 p-2 space-y-1 rounded-md shadow-lg focus:outline-none">
-          <div className="border-b-[1px] border-gray-200">
+        <Menu.Items className="absolute bg-[#f7f7f7] flex flex-col ml-[82px] mt-2 p-2 space-y-1 rounded-md shadow-lg focus:outline-none darkMode-dark-bg dark:text-[#f7f7f7]">
+          <div className="border-b-[1px] border-gray-200 pb-1">
             {timeframes.map(
               (timeframe, index) =>
                 timeframe.name !== currentTimeframe && (
@@ -112,9 +112,9 @@ const FilterMenu = ({
                       <div
                         className={`${
                           active
-                            ? "bg-blue-500 text-white"
+                            ? "bg-blue-500 text-[#f7f7f7] dark:bg-blue-800"
                             : "bg-[#f7f7f7] text-black"
-                        } p-1 rounded-sm hover:cursor-pointer`}
+                        } p-1 rounded-sm hover:cursor-pointer darkMode-dark-bg dark:text-[#f7f7f7]`}
                         onClick={() => setTimeInterval(timeframe.value)}
                       >
                         {timeframe.name}

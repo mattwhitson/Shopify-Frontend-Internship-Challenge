@@ -29,7 +29,7 @@ const Post = ({ data }) => {
   }, []);
 
   return (
-    <article className="flex flex-col sm:p-2 bg-white rounded">
+    <article className="flex flex-col sm:p-2 bg-white rounded transition-colors duration-300 ease-in-out dark:bg-[#181818] dark:text-[#f7f7f7]">
       <div className="">
         {data.media_type === "video" ? (
           <embed

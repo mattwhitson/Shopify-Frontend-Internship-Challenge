@@ -48,17 +48,17 @@ export default function Home({ initalPictures }) {
     }, 5000);
   };
   return (
-    <main className="min-h-screen w-full bg-[#DCDCDC]">
+    <main className="min-h-screen w-full bg-[#DCDCDC] darkMode-black-bg">
       <Head>
         <title>Spacestagram | Home</title>
       </Head>
       <section className="max-w-xl mx-auto space-y-2 pt-4 px-1 sm:px-0">
-        {loading && <LoadingIcon />}
         <FilterMenu
           handleDataChange={handleDataChange}
           handleLoadingChange={handleLoadingChange}
           handleDateError={handleDateError}
         />
+        {loading && <LoadingIcon />}
         {customDateError && (
           <p className="text-sm text-red-500">{customDateError}</p>
         )}

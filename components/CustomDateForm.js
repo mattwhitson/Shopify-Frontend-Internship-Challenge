@@ -6,8 +6,11 @@ const CustomDateForm = ({
   onStartTimeChange,
 }) => {
   return (
-    <form onSubmit={setCustomTimeInterval}>
-      <span className="text-sm font-semibold mb-2">Custom Time Range</span>
+    <form
+      onSubmit={setCustomTimeInterval}
+      className="darkMode-dark-bg dark:text-[#f7f7f7]"
+    >
+      <p className="text-sm font-semibold mb-2">Custom Time Range</p>
       <div className="hidden sm:flex items-baseline justify-between mr-[50%] text-sm font-semibold">
         <label>Start:</label>
         <label>End:</label>
@@ -15,13 +18,13 @@ const CustomDateForm = ({
       <input
         type="date"
         className="hidden sm:inline-block bg-[#f7f7f7] text-black
-           p-1 rounded-sm hover:cursor-pointer"
+           p-1 rounded-sm hover:cursor-pointer darkMode-dark-bg dark:text-[#f7f7f7]"
         onChange={onEndTimeChange}
       />
       <input
         type="date"
         className="hidden sm:inline-block bg-[#f7f7f7] text-black
-            p-1 rounded-sm hover:cursor-pointer"
+            p-1 rounded-sm hover:cursor-pointer darkMode-dark-bg dark:text-[#f7f7f7]"
         onChange={onStartTimeChange}
       />
       <div className="flex items-center justify-between sm:hidden">
@@ -29,7 +32,7 @@ const CustomDateForm = ({
         <input
           type="date"
           className="bg-[#f7f7f7] text-black
-           p-1 rounded-sm hover:cursor-pointer"
+           p-1 rounded-sm hover:cursor-pointer darkMode-dark-bg dark:text-[#f7f7f7]"
           onChange={onEndTimeChange}
         />
       </div>
@@ -38,7 +41,7 @@ const CustomDateForm = ({
         <input
           type="date"
           className="bg-[#f7f7f7] text-black
-            p-1 rounded-sm hover:cursor-pointer"
+            p-1 rounded-sm hover:cursor-pointer darkMode-dark-bg dark:text-[#f7f7f7]"
           onChange={onStartTimeChange}
         />
       </div>
@@ -46,7 +49,9 @@ const CustomDateForm = ({
         {({ active }) => (
           <button
             className={`${
-              active ? "bg-blue-500 text-white" : "text-black"
+              active
+                ? "bg-blue-500 text-[#f7f7f7] dark:bg-blue-800"
+                : "text-black dark:text-[#f7f7f7]"
             } block mt-1 py-2 px-4 rounded-sm hover:cursor-pointer`}
             type="submit"
           >

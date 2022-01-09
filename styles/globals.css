@@ -1,3 +1,17 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer components {
+  .darkMode-black-bg {
+    @apply transition-colors duration-300 ease-in-out dark:bg-black;
+  }
+
+  .darkMode-offDark-bg {
+    @apply transition-colors duration-300 ease-in-out dark:bg-[#0e0e0e];
+  }
+
+  .darkMode-dark-bg {
+    @apply transition-colors duration-300 ease-in-out dark:bg-[#181818];
+  }
+}
