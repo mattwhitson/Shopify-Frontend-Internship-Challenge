@@ -2,12 +2,16 @@ import { Menu, Transition } from "@headlessui/react";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { ChevronDownIcon } from "@heroicons/react/outline";
-import { fetchPictures } from "../services/fetchPictures";
+import { fetchData } from "../services/fetchData";
 import CustomDateForm from "./CustomDateForm";
 
 //simple timeframe selection menu (kind of like reddit's)
 //decided to use @headlessui/react Menu because it provides some nice accessiblity features out of the box, like pressing ESC / clicking outside the menu to close and using arrow keys to navigate
-const FilterMenu = ({ setPictures, setLoading }) => {
+const FilterMenu = ({
+  handleDataChange,
+  handleLoadingChange,
+  handleDateError,
+}) => {
   const [currentTimeframe, setCurrentTimeframe] = useState("Past week");
   const [startTime, setStartTime] = useState(null);
   const [endTime, setEndTime] = useState(null);
@@ -22,7 +26,8 @@ const FilterMenu = ({ setPictures, setLoading }) => {
 
   //function that sets the new time range for predefined time range values
   const setTimeInterval = async (time) => {
-    setLoading(true);
+    handleLoadingChange(true);
+
     //get new start date and end date for query to API
     const today = new Date();
     const prevTime = new Date(
@@ -36,10 +41,10 @@ const FilterMenu = ({ setPictures, setLoading }) => {
     const start_time = prevTime.toISOString().split("T")[0];
 
     //call API and set new pictures
-    const response = await fetchPictures(start_time, end_time);
-    setPictures(response.data.reverse());
+    const response = await fetchData(start_time, end_time);
+    handleDataChange(response.data.reverse());
 
-    setLoading(false);
+    handleLoadingChange(false);
 
     //set new current timeframe for time selection menu in order to display current time frame
     const newTimeframe = timeframes.filter(
@@ -52,13 +57,18 @@ const FilterMenu = ({ setPictures, setLoading }) => {
   const setCustomTimeInterval = async (event) => {
     event.preventDefault();
 
-    setLoading(true);
+    if (endTime === null || startTime === null) {
+      handleDateError("Both date fields must be filled in. Please try again.");
+      return;
+    }
 
-    const response = await fetchPictures(startTime, endTime);
+    handleLoadingChange(true);
 
-    setPictures(response.data.reverse());
+    const response = await fetchData(startTime, endTime);
 
-    setLoading(false);
+    handleDataChange(response.data.reverse());
+
+    handleLoadingChange(false);
 
     setCurrentTimeframe("Custom");
     setStartTime(null);
@@ -76,7 +86,7 @@ const FilterMenu = ({ setPictures, setLoading }) => {
   };
 
   return (
-    <Menu as="div" className="ml-auto relative">
+    <Menu as="section" className="ml-auto relative">
       Posts from:
       <Menu.Button className="bg-[#f7f7f7] ml-2 py-2 px-4 rounded focus:outline-none">
         <div className="flex items-center">

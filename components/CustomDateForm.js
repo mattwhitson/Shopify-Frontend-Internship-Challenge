@@ -17,33 +17,29 @@ const CustomDateForm = ({
         className="hidden sm:inline-block bg-[#f7f7f7] text-black
            p-1 rounded-sm hover:cursor-pointer"
         onChange={onEndTimeChange}
-        required={true}
       />
       <input
         type="date"
         className="hidden sm:inline-block bg-[#f7f7f7] text-black
             p-1 rounded-sm hover:cursor-pointer"
         onChange={onStartTimeChange}
-        required={true}
       />
       <div className="flex items-center justify-between sm:hidden">
-        <span className="text-sm font-semibold">From:</span>
+        <label className="text-sm font-semibold">From:</label>
         <input
           type="date"
           className="bg-[#f7f7f7] text-black
            p-1 rounded-sm hover:cursor-pointer"
           onChange={onEndTimeChange}
-          required={true}
         />
       </div>
       <div className="flex items-center justify-between sm:hidden">
-        <span className="text-sm font-semibold">To:</span>
+        <label className="text-sm font-semibold">To:</label>
         <input
           type="date"
           className="bg-[#f7f7f7] text-black
             p-1 rounded-sm hover:cursor-pointer"
           onChange={onStartTimeChange}
-          required={true}
         />
       </div>
       <Menu.Item>
