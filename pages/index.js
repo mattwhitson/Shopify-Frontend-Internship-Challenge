@@ -1,10 +1,13 @@
 import axios from "axios";
 import Head from "next/head";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Post from "../components/Post";
 import FilterMenu from "../components/FIlterMenu";
+import LoadingIcon from "../components/LoadingIcon";
+import { fetchPictures } from "../services/fetchPictures";
 
-export const getServerSideProps = async () => {
+//fetch inital photos (1 week timeframe) from server for SSR (better SEO and everything is pre-rendered). Using getStaticProps with incremental static regeneration with a revalidation period of 1 hour
+export const getStaticProps = async () => {
   const today = new Date();
   const lastWeek = new Date(
     today.getFullYear(),
@@ -12,35 +15,39 @@ export const getServerSideProps = async () => {
     today.getDate() - 7
   );
 
-  const end_time = today.toISOString().split("T")[0];
-  const start_time = lastWeek.toISOString().split("T")[0];
+  const endTime = today.toISOString().split("T")[0];
+  const startTime = lastWeek.toISOString().split("T")[0];
 
-  const response = await axios.get(
-    `https://api.nasa.gov/planetary/apod?api_key=o9xumx2KKN9HPICoATsDcvHmF6EYBIGWm8ToZfFJ&start_date=${start_time}&end_date=${end_time}`
-  );
+  const response = await fetchPictures(startTime, endTime);
 
   return {
     props: {
       initalPictures: response.data,
     },
+    revalidate: 60 * 3600, // revalidates every hour
   };
 };
 
 export default function Home({ initalPictures }) {
   const [pictures, setPictures] = useState(initalPictures.reverse());
+  const [loading, setLoading] = useState(null);
 
-  console.log(pictures);
   return (
-    <div className="min-h-screen w-full bg-[#DCDCDC]">
+    <main className="min-h-screen w-full bg-[#DCDCDC]">
       <Head>
         <title>Spacestagram | Home</title>
       </Head>
       <div className="max-w-xl mx-auto space-y-2 pt-4 px-1 sm:px-0">
-        <FilterMenu setPictures={setPictures} />
-        {pictures.map((picture, index) => (
-          <Post key={index} picture={picture} />
-        ))}
+        {loading && <LoadingIcon />}
+        <FilterMenu setPictures={setPictures} setLoading={setLoading} />
+        {!loading && (
+          <>
+            {pictures.map((picture, index) => (
+              <Post key={index} picture={picture} />
+            ))}
+          </>
+        )}
       </div>
-    </div>
+    </main>
   );
 }
