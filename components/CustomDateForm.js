@@ -1,47 +1,18 @@
 import { Menu } from "@headlessui/react";
 
-const CustomDateForm = ({
-  setCustomTimeInterval,
-  onEndTimeChange,
-  onStartTimeChange,
-}) => {
+const CustomDateForm = ({ setCustomTimeInterval, onStartTimeChange }) => {
   return (
     <form
       onSubmit={setCustomTimeInterval}
       className="darkMode-dark-bg dark:text-[#f7f7f7]"
     >
-      <p className="text-sm font-semibold mb-2">Custom Time Range</p>
-      <div className="hidden sm:flex items-baseline justify-between mr-[50%] text-sm font-semibold">
-        <label>Start:</label>
-        <label>End:</label>
-      </div>
-      <input
-        type="date"
-        className="hidden sm:inline-block bg-[#f7f7f7] text-black
-           p-1 rounded-sm hover:cursor-pointer darkMode-dark-bg dark:text-[#f7f7f7]"
-        onChange={onEndTimeChange}
-      />
-      <input
-        type="date"
-        className="hidden sm:inline-block bg-[#f7f7f7] text-black
-            p-1 rounded-sm hover:cursor-pointer darkMode-dark-bg dark:text-[#f7f7f7]"
-        onChange={onStartTimeChange}
-      />
-      <div className="flex items-center justify-between sm:hidden">
-        <label className="text-sm font-semibold">From:</label>
+      <p className="text-sm font-semibold mb-2 p-1">Custom Time Range</p>
+      <div className="sm:flex items-baseline text-sm font-semibold">
+        <label>Start from:</label>
         <input
           type="date"
-          className="bg-[#f7f7f7] text-black
-           p-1 rounded-sm hover:cursor-pointer darkMode-dark-bg dark:text-[#f7f7f7]"
-          onChange={onEndTimeChange}
-        />
-      </div>
-      <div className="flex items-center justify-between sm:hidden">
-        <label className="text-sm font-semibold">To:</label>
-        <input
-          type="date"
-          className="bg-[#f7f7f7] text-black
-            p-1 rounded-sm hover:cursor-pointer darkMode-dark-bg dark:text-[#f7f7f7]"
+          className="ml-6 bg-[#f7f7f7] text-black
+           p-1 rounded-sm hover:cursor-pointer focus:outline-none darkMode-dark-bg dark:text-[#f7f7f7]"
           onChange={onStartTimeChange}
         />
       </div>

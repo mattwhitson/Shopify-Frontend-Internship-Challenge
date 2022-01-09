@@ -34,7 +34,7 @@ const Post = ({ data }) => {
         {data.media_type === "video" ? (
           <embed
             className="mx-auto rounded w-full h-96"
-            src={"https://www.youtube.com/embed/2SnbMTQwDKM?rel=0"}
+            src={data.url}
             alt={data.title}
           ></embed>
         ) : (

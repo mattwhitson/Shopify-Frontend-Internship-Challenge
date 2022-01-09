@@ -13,14 +13,14 @@ const Header = ({ handleDarkModeChange, darkMode }) => {
         </div>
         {darkMode ? (
           <button
-            className="ml-auto mr-2 sm:mr-0 bg-[#f7f7f7] p-1 rounded transition duration-150 ease-in-out hover:bg-white active:scale-125"
+            className="ml-auto mr-2 sm:mr-0 bg-[#f7f7f7] p-1 sm:p-2  rounded transition duration-150 ease-in-out hover:bg-white active:scale-125"
             onClick={handleDarkModeChange}
           >
             <LightBulbIcon className="h-6" />
           </button>
         ) : (
           <button
-            className="ml-auto mr-2 sm:mr-0 bg-gray-400 p-1 rounded transition duration-150 ease-in-out hover:bg-gray-600 active:scale-125"
+            className="ml-auto mr-2 sm:mr-0 bg-[#181818] text-[#f7f7f7] p-1 sm:p-2 rounded transition duration-150 ease-in-out hover:bg-gray-600 active:scale-125"
             onClick={handleDarkModeChange}
           >
             <MoonIcon className="h-6" />

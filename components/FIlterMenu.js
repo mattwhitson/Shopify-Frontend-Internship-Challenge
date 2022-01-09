@@ -5,27 +5,27 @@ import { ChevronDownIcon } from "@heroicons/react/outline";
 import { fetchData } from "../services/fetchData";
 import CustomDateForm from "./CustomDateForm";
 
-//simple timeframe selection menu (kind of like reddit's)
+//simple sorting method selection menu
 //decided to use @headlessui/react Menu because it provides some nice accessiblity features out of the box, like pressing ESC / clicking outside the menu to close and using arrow keys to navigate
 const FilterMenu = ({
   handleDataChange,
   handleLoadingChange,
   handleDateError,
+  handleCurrentDateChange,
 }) => {
-  const [currentTimeframe, setCurrentTimeframe] = useState("Past week");
+  const [currentSortingMethod, setCurrentSortingMethod] = useState(
+    "Chronological Order"
+  );
   const [startTime, setStartTime] = useState(null);
-  const [endTime, setEndTime] = useState(null);
 
-  //predefined timeframes for timeframe selection menu
-  const timeframes = [
-    { name: "Past week", value: 7 },
-    { name: "Past month", value: 30 },
-    { name: "Past 6 months", value: 182 },
-    { name: "Past year", value: 365 },
+  //predefined sortMethods for timeframe selection menu
+  const sortMethods = [
+    { name: "Chronological Order", days: 30 },
+    { name: "Random Order", days: null },
   ];
 
-  //function that sets the new time range for predefined time range values
-  const setTimeInterval = async (time) => {
+  //function that sets the new inital time range for Chronological Order
+  const setTimeInterval = async (sortType) => {
     handleLoadingChange(true);
 
     //get new start date and end date for query to API
@@ -33,7 +33,7 @@ const FilterMenu = ({
     const prevTime = new Date(
       today.getFullYear(),
       today.getMonth(),
-      today.getDate() - time
+      today.getDate() - sortType.days
     );
 
     //convert those new dates to format YYYY-MM-DD
@@ -47,37 +47,43 @@ const FilterMenu = ({
     handleLoadingChange(false);
 
     //set new current timeframe for time selection menu in order to display current time frame
-    const newTimeframe = timeframes.filter(
-      (timeframe) => timeframe.value === time
+    const newSortingMethod = sortMethods.filter(
+      (sortMethod) => sortMethod.name === sortType.name
     );
-    setCurrentTimeframe(newTimeframe[0].name);
+
+    console.log(newSortingMethod);
+    setCurrentSortingMethod(newSortingMethod[0].name);
   };
 
   //function to compute custom timeframe selection
   const setCustomTimeInterval = async (event) => {
     event.preventDefault();
 
-    if (endTime === null || startTime === null) {
-      handleDateError("Both date fields must be filled in. Please try again.");
+    if (startTime === null) {
+      handleDateError("You must enter in a date. Please try again.");
       return;
     }
 
     handleLoadingChange(true);
 
-    const response = await fetchData(startTime, endTime);
+    const startDate = new Date(startTime);
+
+    const endDate = new Date(
+      startDate.getFullYear(),
+      startDate.getMonth(),
+      startDate.getDate() - 30
+    );
+
+    const endTime = endDate.toISOString().split("T")[0];
+
+    const response = await fetchData(endTime, startTime);
 
     handleDataChange(response.data.reverse());
-
+    handleCurrentDateChange(startTime);
     handleLoadingChange(false);
 
-    setCurrentTimeframe("Custom");
+    setCurrentSortingMethod("Custom");
     setStartTime(null);
-    setEndTime(null);
-  };
-
-  //event callback to handle end time input
-  const onEndTimeChange = (event) => {
-    setEndTime(event.target.value);
   };
 
   //event callback to handle start time input
@@ -86,11 +92,14 @@ const FilterMenu = ({
   };
 
   return (
-    <Menu as="section" className="ml-auto relative dark:text-[#f7f7f7]">
-      Posts from:
+    <Menu
+      as="section"
+      className="ml-auto relative transition-colors dark:text-[#f7f7f7]"
+    >
+      Posts in:
       <Menu.Button className="bg-[#f7f7f7] ml-2 py-2 px-4 rounded focus:outline-none darkMode-dark-bg">
         <div className="flex items-center">
-          {currentTimeframe}
+          {currentSortingMethod}
           <ChevronDownIcon className="h-4 ml-2" />
         </div>
       </Menu.Button>
@@ -103,30 +112,31 @@ const FilterMenu = ({
         leaveTo="transform scale-75 opacity-0"
       >
         <Menu.Items className="absolute bg-[#f7f7f7] flex flex-col ml-[82px] mt-2 p-2 space-y-1 rounded-md shadow-lg focus:outline-none darkMode-dark-bg dark:text-[#f7f7f7]">
-          <div className="border-b-[1px] border-gray-200 pb-1">
-            {timeframes.map(
-              (timeframe, index) =>
-                timeframe.name !== currentTimeframe && (
-                  <Menu.Item key={index}>
-                    {({ active }) => (
-                      <div
-                        className={`${
-                          active
-                            ? "bg-blue-500 text-[#f7f7f7] dark:bg-blue-800"
-                            : "bg-[#f7f7f7] text-black"
-                        } p-1 rounded-sm hover:cursor-pointer darkMode-dark-bg dark:text-[#f7f7f7]`}
-                        onClick={() => setTimeInterval(timeframe.value)}
-                      >
-                        {timeframe.name}
-                      </div>
-                    )}
-                  </Menu.Item>
-                )
-            )}
+          <div className="border-b-[1px] border-gray-200 pb-1 dark:border-gray-800">
+            {sortMethods.map((sortMethod, index) => (
+              <Menu.Item
+                key={index}
+                disabled={currentSortingMethod === sortMethod.name}
+              >
+                {({ active, disabled }) => (
+                  <div
+                    className={`${
+                      disabled
+                        ? "text-gray-400"
+                        : active
+                        ? "bg-blue-500 text-[#f7f7f7] dark:bg-blue-800"
+                        : "bg-[#f7f7f7] text-black"
+                    } p-1 rounded-sm hover:cursor-pointer darkMode-dark-bg dark:text-[#f7f7f7]`}
+                    onClick={() => setTimeInterval(sortMethod)}
+                  >
+                    {sortMethod.name}
+                  </div>
+                )}
+              </Menu.Item>
+            ))}
           </div>
           <CustomDateForm
             setCustomTimeInterval={setCustomTimeInterval}
-            onEndTimeChange={onEndTimeChange}
             onStartTimeChange={onStartTimeChange}
           />
         </Menu.Items>
