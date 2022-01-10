@@ -4,10 +4,12 @@ import { useEffect, useState } from "react";
 import Post from "../components/Post";
 import FilterMenu from "../components/FilterMenu";
 import LoadingIcon from "../components/LoadingIcon";
-import { fetchData } from "../services/fetchData";
+import { fetchDataServerSide } from "../services/fetchData";
 import Feed from "../components/Feed";
 
-//fetch inital photos (1 week timeframe) from server for SSR (better SEO and everything is pre-rendered). Using getStaticProps with incremental static regeneration with a revalidation period of 1 hour
+//Fetch inital photos (1 week timeframe) from server for SSR (better SEO and everything is pre-rendered). Using getStaticProps with incremental static regeneration with a revalidation period of 6 hour
+//Unfortunately, it can sometimes take a little bit to load due to NASA's API sometimes being a little slow! haha
+//I decided 16 pictures was an okay number to fetch, I tried higher amounts (ex. 30 pictures) but it seemed to be too slow
 export const getStaticProps = async () => {
   const today = new Date();
   const lastWeek = new Date(
@@ -19,13 +21,13 @@ export const getStaticProps = async () => {
   const endTime = today.toISOString().split("T")[0];
   const startTime = lastWeek.toISOString().split("T")[0];
 
-  const response = await fetchData(startTime, endTime);
+  const response = await fetchDataServerSide(startTime, endTime);
 
   return {
     props: {
-      initalPictures: response.data,
+      initalPictures: response,
     },
-    revalidate: 60 * 3600, // revalidates every hour
+    revalidate: 60 * 21600, // revalidates every 6 hours
   };
 };
 
@@ -45,7 +47,6 @@ export default function Home({ initalPictures }) {
   //handles complete data reset (i.e. when a user selects a new custom date)
   const handleDataChange = (data) => {
     setData(data);
-    setCurrentDate(new Date().toISOString().split("T")[0]);
   };
 
   //handles concating the current page's data with the next page's data
@@ -66,12 +67,16 @@ export default function Home({ initalPictures }) {
     }, 5000);
   };
 
-  console.log(data);
-
   return (
     <main className="min-h-screen w-full bg-[#DCDCDC] darkMode-black-bg">
       <Head>
         <title>Spacestagram | Home</title>
+        <meta property="og:title" content="Spacestagram" />
+        <meta
+          property="og:description"
+          content="Photos from NASA's Astronomy Photo of the Day (APOD) API"
+        />
+        <meta property="og:image" content={data[0].url} />
       </Head>
       <section className="max-w-xl mx-auto space-y-2 pt-4 px-1 sm:px-0">
         <FilterMenu

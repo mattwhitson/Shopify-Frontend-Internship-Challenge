@@ -2,7 +2,7 @@ import { Menu, Transition } from "@headlessui/react";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { ChevronDownIcon } from "@heroicons/react/outline";
-import { fetchData } from "../services/fetchData";
+import { fetchData, fetchRandomData } from "../services/fetchData";
 import CustomDateForm from "./CustomDateForm";
 
 //simple sorting method selection menu
@@ -20,7 +20,7 @@ const FilterMenu = ({
 
   //predefined sortMethods for timeframe selection menu
   const sortMethods = [
-    { name: "Chronological Order", days: 30 },
+    { name: "Chronological Order", days: 15 },
     { name: "Random Order", days: null },
   ];
 
@@ -28,21 +28,29 @@ const FilterMenu = ({
   const setTimeInterval = async (sortType) => {
     handleLoadingChange(true);
 
-    //get new start date and end date for query to API
-    const today = new Date();
-    const prevTime = new Date(
-      today.getFullYear(),
-      today.getMonth(),
-      today.getDate() - sortType.days
-    );
+    if (sortType.name === "Random Order") {
+      //fetch randomized pictures from API and set currentDate to null so that useNextPage hook knows to fetch random data
+      const response = await fetchRandomData();
+      handleDataChange(response);
+      handleCurrentDateChange(null);
+    } else {
+      //get new start date and end date for query to API
+      const today = new Date();
+      const prevTime = new Date(
+        today.getFullYear(),
+        today.getMonth(),
+        today.getDate() - sortType.days
+      );
 
-    //convert those new dates to format YYYY-MM-DD
-    const end_time = today.toISOString().split("T")[0];
-    const start_time = prevTime.toISOString().split("T")[0];
+      //convert those new dates to format YYYY-MM-DD
+      const end_time = today.toISOString().split("T")[0];
+      const start_time = prevTime.toISOString().split("T")[0];
 
-    //call API and set new pictures
-    const response = await fetchData(start_time, end_time);
-    handleDataChange(response.data.reverse());
+      //call API and set new pictures
+      const response = await fetchData(start_time, end_time);
+      handleDataChange(response.reverse());
+      handleCurrentDateChange(new Date().toISOString().split("T")[0]);
+    }
 
     handleLoadingChange(false);
 
@@ -51,7 +59,6 @@ const FilterMenu = ({
       (sortMethod) => sortMethod.name === sortType.name
     );
 
-    console.log(newSortingMethod);
     setCurrentSortingMethod(newSortingMethod[0].name);
   };
 
@@ -78,7 +85,7 @@ const FilterMenu = ({
 
     const response = await fetchData(endTime, startTime);
 
-    handleDataChange(response.data.reverse());
+    handleDataChange(response.reverse());
     handleCurrentDateChange(startTime);
     handleLoadingChange(false);
 

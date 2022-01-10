@@ -1,7 +1,8 @@
 import { HeartIcon as HeartIconFilled } from "@heroicons/react/solid";
-import { HeartIcon } from "@heroicons/react/outline";
+import { ExternalLinkIcon, HeartIcon } from "@heroicons/react/outline";
 import { useEffect, useState } from "react";
 import Cookies from "js-cookie";
+import Link from "next/link";
 
 //component that renders each individual post
 //I decided to use Cookies to have likes persist through a refresh, but obviously it would be much better to have users log in and save that data to a db
@@ -55,6 +56,11 @@ const Post = ({ data }) => {
               className="h-7 hover:scale-125 cursor-pointer transition-all duration-150 ease-out"
             />
           )}
+          <Link href={`/post/${data.date}`} passHref>
+            <a>
+              <ExternalLinkIcon className="h-7 hover:scale-125 cursor-pointer transition-all duration-150 ease-out ml-2" />
+            </a>
+          </Link>
           <time className="ml-auto text-sm font-semibold">{data.date}</time>
         </div>
         <h2 className="text-xl sm:text-2xl font-semibold">{data.title}</h2>

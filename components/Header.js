@@ -1,4 +1,5 @@
 import { LightBulbIcon, MoonIcon } from "@heroicons/react/outline";
+import Link from "next/link";
 
 //simple header component that displays website name and basic info
 const Header = ({ handleDarkModeChange, darkMode }) => {
@@ -6,8 +7,12 @@ const Header = ({ handleDarkModeChange, darkMode }) => {
     <header className="bg-[#f7f7f7] h-14 sm:h-16 darkMode-offDark-bg">
       <div className="relative flex max-w-5xl h-full mx-auto items-center">
         <div className="flex flex-col ml-2 mb-2 dark:text-[#f7f7f7]">
-          <h1 className="font-bold text-2xl">Spacestagram</h1>
-          <p className="text-xs text-gray-400">
+          <Link href={"/"} passHref>
+            <h1 className="font-bold text-2xl hover:cursor-pointer">
+              Spacestagram
+            </h1>
+          </Link>
+          <p className="text-xs text-gray-400 hover:cursor-pointer">
             Brought to you by NASA&apos;s Astronomy Photo of the Day API
           </p>
         </div>

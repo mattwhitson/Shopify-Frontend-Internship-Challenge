@@ -1,6 +1,6 @@
 const LoadingIcon = () => {
   return (
-    <div className="flex flex-col justify-center items-center min-h-[calc(100vh-3.5rem)] sm:min-h-[calc(100vh-4rem)] w-full bg-[#DCDCDC]">
+    <div className="flex flex-col justify-center items-center min-h-[calc(100vh-3.5rem)] sm:min-h-[calc(100vh-4rem)] w-full">
       <div className="min-h-[30vh] sm:min-h-[25vh]">
         <svg
           className="animate-spin h-32 w-32 text-blue-600 "

@@ -3,7 +3,8 @@ import Header from "./Header";
 
 //extremely simple layout component that displays a header and wraps on the children components
 const Layout = ({ children }) => {
-  const [darkMode, setDarkMode] = useState(false);
+  //Set dark mode to true by default
+  const [darkMode, setDarkMode] = useState(true);
 
   const handleDarkModeChange = () => {
     setDarkMode(!darkMode);

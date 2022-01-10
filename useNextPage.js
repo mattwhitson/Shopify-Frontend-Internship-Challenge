@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { fetchData } from "./services/fetchData";
+import { fetchData, fetchRandomData } from "./services/fetchData";
 
 const useNextPage = (
   currentPage,
@@ -36,18 +36,21 @@ const useNextPage = (
     return { newStartDate, newEndDate };
   };
 
-  //fetches next 30 days worth of data and then submit's it back to event handler in index.js
+  //fetches next 30 days worth of data and then submit's it back to event handler in index.js if sortMethod is in Chronological Order
+  //If the sortMethod is Random Order, than randomly fetch another 16 images
   useEffect(() => {
     if (currentPage > 1 && !loading) {
       const getNextPage = async () => {
         setLoading(true);
-        const { newStartDate, newEndDate } = getNewDates();
+        if (currentDate) {
+          const { newStartDate, newEndDate } = getNewDates();
 
-        console.log(newStartDate, newEndDate);
-
-        const response = await fetchData(newStartDate, newEndDate);
-
-        handlePageChange(response.data.reverse());
+          const response = await fetchData(newStartDate, newEndDate);
+          handlePageChange(response.reverse());
+        } else {
+          const response = await fetchRandomData();
+          handlePageChange(response);
+        }
 
         setLoading(false);
       };
