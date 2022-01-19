@@ -19,7 +19,6 @@ export const getServerSideProps = async (context) => {
 };
 
 const Post = ({ post }) => {
-  console.log(post);
   return (
     <main className="min-h-[calc(100vh-3.5rem)] sm:min-h-[calc(100vh-4rem)] w-full transition-colors duration-300 ease-in-out dark:bg-[#161616] dark:text-[#f7f7f7]">
       <Head>
