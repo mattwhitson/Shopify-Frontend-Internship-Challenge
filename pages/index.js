@@ -23,7 +23,7 @@ export const getStaticProps = async () => {
     .get(
       `https://api.nasa.gov/planetary/apod?api_key=${process.env.API_KEY}&start_date=${startTime}&end_date=${endTime}`
     )
-    .then((res) => res.data.reverse())
+    .then((res) => res.data)
     .catch((error) => console.error(error));
 
   return {
