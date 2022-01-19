@@ -1,10 +1,8 @@
 import axios from "axios";
 import Head from "next/head";
-import { useEffect, useState } from "react";
-import Post from "../components/Post";
+import { useState } from "react";
 import FilterMenu from "../components/FilterMenu";
 import LoadingIcon from "../components/LoadingIcon";
-import { fetchDataServerSide } from "../services/fetchData";
 import Feed from "../components/Feed";
 
 //Fetch inital photos (1 week timeframe) from server for SSR (better SEO and everything is pre-rendered). Using getStaticProps with incremental static regeneration with a revalidation period of 6 hour
@@ -21,7 +19,12 @@ export const getStaticProps = async () => {
   const endTime = today.toISOString().split("T")[0];
   const startTime = lastWeek.toISOString().split("T")[0];
 
-  const response = await fetchDataServerSide(startTime, endTime);
+  const response = await axios
+    .get(
+      `https://api.nasa.gov/planetary/apod?api_key=${process.env.API_KEY}&start_date=${startTime}&end_date=${endTime}`
+    )
+    .then((res) => res.data)
+    .catch((error) => console.error(error));
 
   return {
     props: {

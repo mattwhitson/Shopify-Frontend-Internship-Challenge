@@ -1,12 +1,15 @@
 import axios from "axios";
-import Image from "next/image";
 import Head from "next/head";
-import { fetchPostServerSide } from "../../services/fetchData";
 
 export const getServerSideProps = async (context) => {
   const date = context.params.post;
 
-  const response = await fetchPostServerSide(date);
+  const response = await axios
+    .get(
+      `https://api.nasa.gov/planetary/apod?api_key=${process.env.API_KEY}&date=${date}`
+    )
+    .then((res) => res.data)
+    .catch((error) => console.error(error));
 
   return {
     props: {
