@@ -35,7 +35,7 @@ export const getStaticProps = async () => {
 };
 
 export default function Home({ initalPictures }) {
-  const [data, setData] = useState(initalPictures.reverse());
+  const [data, setData] = useState(initalPictures);
   const [loading, setLoading] = useState(false);
   const [customDateError, setCustomDateError] = useState(null);
   const [currentDate, setCurrentDate] = useState(
