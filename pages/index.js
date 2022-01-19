@@ -8,7 +8,7 @@ import Feed from "../components/Feed";
 //Fetch inital photos (1 week timeframe) from server for SSR (better SEO and everything is pre-rendered). Using getStaticProps with incremental static regeneration with a revalidation period of 6 hour
 //Unfortunately, it can sometimes take a little bit to load due to NASA's API sometimes being a little slow! haha
 //I decided 16 pictures was an okay number to fetch, I tried higher amounts (ex. 30 pictures) but it seemed to be too slow
-export const getStaticProps = async () => {
+export const getServerSideProps = async () => {
   const today = new Date();
   const lastWeek = new Date(
     today.getFullYear(),
@@ -29,8 +29,7 @@ export const getStaticProps = async () => {
   return {
     props: {
       initalPictures: response,
-    },
-    revalidate: 60, // revalidates every 6 hours
+    }, // revalidates every 6 hours
   };
 };
 
