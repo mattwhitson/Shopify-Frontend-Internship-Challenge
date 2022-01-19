@@ -28,7 +28,7 @@ export const getStaticProps = async () => {
 
   return {
     props: {
-      initalPictures: response,
+      initalPictures: response.reverse(),
     },
     revalidate: 60 * 21600, // revalidates every 6 hours
   };
