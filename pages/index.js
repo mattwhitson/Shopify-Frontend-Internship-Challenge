@@ -70,6 +70,7 @@ export default function Home({ initalPictures }) {
     }, 5000);
   };
 
+  //Added meta tags for websites that support link previews!
   return (
     <main className="min-h-screen w-full bg-[#DCDCDC] darkMode-black-bg">
       <Head>

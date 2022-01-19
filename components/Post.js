@@ -39,7 +39,6 @@ const Post = ({ data }) => {
             alt={data.title}
           ></embed>
         ) : (
-          // eslint-disable-next-line @next/next/no-img-element
           <img className="mx-auto rounded" src={data.url} alt={data.title} />
         )}
       </div>

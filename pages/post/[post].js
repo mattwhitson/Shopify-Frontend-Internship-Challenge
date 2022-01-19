@@ -18,6 +18,7 @@ export const getServerSideProps = async (context) => {
   };
 };
 
+//Decided to add meta tags so if someone links the page on a website that supports it they'll get a nice link preview of the photo in question!
 const Post = ({ post }) => {
   return (
     <main className="min-h-[calc(100vh-3.5rem)] sm:min-h-[calc(100vh-4rem)] w-full transition-colors duration-300 ease-in-out dark:bg-[#161616] dark:text-[#f7f7f7]">
@@ -36,7 +37,6 @@ const Post = ({ post }) => {
       <div className="grid grid-cols-1 xl:grid-cols-4 xl:max-w-[1500px] mx-auto sm:pt-4 shadow-lg dark:shadow-2xl ">
         <section className="col-span-1 xl:col-span-3">
           {post.media_type === "image" ? (
-            // eslint-disable-next-line @next/next/no-img-element
             <img src={post.hdurl} alt="" className="rounded-l-md" />
           ) : (
             <div className="relative h-full pb-[50%] xl:pb-[1%]">
