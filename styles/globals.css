@@ -1,3 +1,5 @@
+@import url("https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap");
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -13,5 +15,24 @@
 
   .darkMode-dark-bg {
     @apply transition-colors duration-300 ease-in-out dark:bg-[#181818];
+  }
+
+  ::-webkit-scrollbar {
+    width: 10px;
+    background: #888;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: #888;
+    border-radius: 8px;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: #f1f1f1;
+    border-radius: 8px;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: #555;
   }
 }
