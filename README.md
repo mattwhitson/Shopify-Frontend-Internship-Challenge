@@ -12,4 +12,5 @@ https://shopify-frontend-internship-challenge.vercel.app/
 * Loading symbol when switching between sorting methods
 * Infinite scrolling with a loading symbol at the bottom while the site is fetching the next page of images
 * Server Side Rendering of initial page with incremental static regneration for better SEO
+* Added video support since I noticed some of the APOD posts are videos
 * Fully responsive on all devices
