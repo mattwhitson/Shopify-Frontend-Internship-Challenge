@@ -1,7 +1,7 @@
 import Post from "./Post";
 import { useInView } from "react-intersection-observer";
 import { useEffect, useState } from "react";
-import useNextPage from "../useNextPage";
+import useNextPage from "../hooks/useNextPage";
 import SmallLoadingIcon from "./SmallLoadingIcon";
 
 const Feed = ({

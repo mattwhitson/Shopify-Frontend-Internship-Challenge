@@ -1,4 +1,4 @@
-//small loading icon to signify the next page of data is loading
+//Small loading icon to signify the next page of data is loading
 const SmallLoadingIcon = () => {
   return (
     <div className="flex justify-center items-center">

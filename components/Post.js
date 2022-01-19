@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import Cookies from "js-cookie";
 import Link from "next/link";
 
-//component that renders each individual post
+//Component that renders each individual post
 //I decided to use Cookies to have likes persist through a refresh, but obviously it would be much better to have users log in and save that data to a db
 const Post = ({ data }) => {
   const [liked, setLiked] = useState(null);
@@ -32,7 +32,7 @@ const Post = ({ data }) => {
   return (
     <article className="flex flex-col sm:p-2 bg-white rounded transition-colors duration-300 ease-in-out dark:bg-[#181818] dark:text-[#f7f7f7]">
       <div className="">
-        {data.media_type === "video" ? (
+        {data?.media_type === "video" ? (
           <embed
             className="mx-auto rounded w-full h-96"
             src={data.url}

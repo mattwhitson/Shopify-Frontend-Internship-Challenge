@@ -5,8 +5,8 @@ import { ChevronDownIcon } from "@heroicons/react/outline";
 import { fetchData, fetchRandomData } from "../services/fetchData";
 import CustomDateForm from "./CustomDateForm";
 
-//simple sorting method selection menu
-//decided to use @headlessui/react Menu because it provides some nice accessiblity features out of the box, like pressing ESC / clicking outside the menu to close and using arrow keys to navigate
+//Simple sorting method selection menu
+//Decided to use @headlessui/react Menu because it provides some nice accessiblity features out of the box, like pressing ESC / clicking outside the menu to close and using arrow keys to navigate
 const FilterMenu = ({
   handleDataChange,
   handleLoadingChange,
@@ -129,7 +129,7 @@ const FilterMenu = ({
                   <div
                     className={`${
                       disabled
-                        ? "text-gray-400"
+                        ? "text-gray-400 dark:text-gray-500"
                         : active
                         ? "bg-blue-500 text-[#f7f7f7] dark:bg-blue-800"
                         : "bg-[#f7f7f7] text-black"

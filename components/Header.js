@@ -1,7 +1,7 @@
 import { LightBulbIcon, MoonIcon } from "@heroicons/react/outline";
 import Link from "next/link";
 
-//simple header component that displays website name and basic info
+//Simple header component that displays website name and basic info
 const Header = ({ handleDarkModeChange, darkMode }) => {
   return (
     <header className="bg-[#f7f7f7] h-14 sm:h-16 darkMode-offDark-bg">

@@ -76,7 +76,7 @@ export default function Home({ initalPictures }) {
           property="og:description"
           content="Photos from NASA's Astronomy Photo of the Day (APOD) API"
         />
-        <meta property="og:image" content={data[0].url} />
+        <meta property="og:image" content={data[0]?.url} />
       </Head>
       <section className="max-w-xl mx-auto space-y-2 pt-4 px-1 sm:px-0">
         <FilterMenu

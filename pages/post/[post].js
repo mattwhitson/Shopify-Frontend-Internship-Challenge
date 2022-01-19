@@ -20,6 +20,7 @@ const Post = ({ post }) => {
   return (
     <main className="min-h-[calc(100vh-3.5rem)] sm:min-h-[calc(100vh-4rem)] w-full transition-colors duration-300 ease-in-out dark:bg-[#161616] dark:text-[#f7f7f7]">
       <Head>
+        <title>Spacestagram | {post.title}</title>
         <meta property="og:title" content={post.title} />
         <meta
           property="og:description"
@@ -30,7 +31,7 @@ const Post = ({ post }) => {
           <meta property="og:video" content={post.url} />
         )}
       </Head>
-      <div className="grid grid-cols-1 xl:grid-cols-4 xl:max-w-[1500px] mx-auto sm:pt-4 shadow-lg dark:shadow-2xl">
+      <div className="grid grid-cols-1 xl:grid-cols-4 xl:max-w-[1500px] mx-auto sm:pt-4 shadow-lg dark:shadow-2xl ">
         <section className="col-span-1 xl:col-span-3">
           {post.media_type === "image" ? (
             // eslint-disable-next-line @next/next/no-img-element

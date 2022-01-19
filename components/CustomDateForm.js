@@ -22,8 +22,8 @@ const CustomDateForm = ({ setCustomTimeInterval, onStartTimeChange }) => {
             className={`${
               active
                 ? "bg-blue-500 text-[#f7f7f7] dark:bg-blue-800"
-                : "text-black dark:text-[#f7f7f7]"
-            } block mt-1 py-2 px-4 rounded-sm hover:cursor-pointer`}
+                : "text-black bg-blue-400 dark:text-[#f7f7f7]"
+            } block mt-1 py-2 px-4 rounded-sm hover:cursor-pointer shadow-blue-500/30`}
             type="submit"
           >
             Set Custom Time
