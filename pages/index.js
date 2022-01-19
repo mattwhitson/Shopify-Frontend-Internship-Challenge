@@ -42,6 +42,8 @@ export default function Home({ initalPictures }) {
     new Date().toISOString().split("T")[0]
   );
 
+  console.log(posts);
+
   //handles updating of current date to load data from when user loads another page
   const handleCurrentDateChange = (date) => {
     setCurrentDate(date);
