@@ -1,4 +1,14 @@
 # About
-This is Shopify's Frontend Internship Challenge that I have built with Next.js, TailwindCSS, and NASA's APOD API! It supports both a light and dark mode, the ability to add and remove likes that are stored via cookies, links to see photos in a higher resolution individually, the ability to sort Chronologically, Randomly, or Chronologically starting from a specified date, and it's fully responsive for devices of all sizes! Thank you for taking the time to check it out!
+This is Shopify's Frontend Internship Challenge that I have built with Next.js, TailwindCSS, and NASA's APOD API! 
+
 # Deployment URL
 https://shopify-frontend-internship-challenge.vercel.app/
+
+# Key Features
+* Light and Dark Mode that can be easily toggled
+* Add and remove likes that are stored in cookies
+* Links to individual photo pages for a higher resolution image
+* Ability to sort either randomly or in chronological order, as well as being able to specify the chronological sorting start date 
+* Loading symbol when switching between sorting methods
+* Infinite scrolling with a loading symbol at the bottom while the site is fetching the next page of images
+* Fully responsive on all devices
