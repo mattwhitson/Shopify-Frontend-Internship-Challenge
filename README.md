@@ -11,5 +11,5 @@ https://shopify-frontend-internship-challenge.vercel.app/
 * Ability to sort either randomly or in chronological order, as well as being able to specify the chronological sorting start date 
 * Loading symbol when switching between sorting methods
 * Infinite scrolling with a loading symbol at the bottom while the site is fetching the next page of images
-* Server Side Rendering of initial page for better SEO optimization
+* Server Side Rendering of initial page for better SEO
 * Fully responsive on all devices
