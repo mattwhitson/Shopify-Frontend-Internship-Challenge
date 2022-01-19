@@ -1,6 +1,5 @@
 import { Menu, Transition } from "@headlessui/react";
-import axios from "axios";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { ChevronDownIcon } from "@heroicons/react/outline";
 import { fetchData, fetchRandomData } from "../services/fetchData";
 import CustomDateForm from "./CustomDateForm";
