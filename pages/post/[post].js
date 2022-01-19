@@ -10,7 +10,7 @@ export const getServerSideProps = async (context) => {
 
   return {
     props: {
-      post: response || "",
+      post: response || null,
     },
   };
 };

@@ -4,7 +4,9 @@ import axios from "axios";
 //Initial fetch via the server requires an absolute URL
 export const fetchDataServerSide = (startTime, endTime) =>
   axios
-    .get(`http://localhost:3000/api/posts/${startTime}/${endTime}`)
+    .get(
+      `https://shopify-frontend-internship-challenge-mattwhitson.vercel.app/api/posts/${startTime}/${endTime}`
+    )
     .then((response) => response.data)
     .catch((error) => console.error(error));
 
@@ -23,6 +25,8 @@ export const fetchRandomData = () =>
 
 export const fetchPostServerSide = (date) =>
   axios
-    .get(`http://localhost:3000/api/posts/${date}`)
+    .get(
+      `https://shopify-frontend-internship-challenge-mattwhitson.vercel.app/api/posts/${date}`
+    )
     .then((response) => response.data)
     .catch((error) => console.error(error));
