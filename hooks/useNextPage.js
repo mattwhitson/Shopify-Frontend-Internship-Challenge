@@ -1,5 +1,7 @@
 import { useEffect, useState } from "react";
 import { fetchData, fetchRandomData } from "../services/fetchData";
+import moment from "moment-timezone";
+moment.tz.add("America/New_York|EST EDT EWT EPT|50 40 40 40");
 
 const useNextPage = (
   currentPage,
@@ -12,33 +14,23 @@ const useNextPage = (
 
   //Gets new 30 day date range for next page of data, then updates the global current date which keeps track of the next page's date range
   const getNewDates = () => {
-    const dateTemp = new Date(currentDate);
+    //Decided to use the moment-timezone library with EST timezone setting because that is roughly when NASA uploads their new photos (12am EST) and it will avoid duplicate posts depending on someone's timezone!
+    const dateToChange = moment(new Date(currentDate)).tz("EST").format();
 
-    //compensates for current user's timezone, helps to avoid duplicates (at least for those in North America),
-    //would be optimal to instead use the timezone NASA uses for uploading photos, but I'm not 100% sure what that is
-    const dateToChange = new Date(
-      dateTemp - new Date().getTimezoneOffset() * 60000
-    );
+    const newCurrentDate = moment(dateToChange)
+      .subtract(16, "days")
+      .tz("EST")
+      .format();
+    const newEndDate = moment(dateToChange)
+      .subtract(16, "days")
+      .tz("EST")
+      .format("YYYY-MM-DD");
+    const newStartDate = moment(newEndDate)
+      .subtract(15, "days")
+      .tz("EST")
+      .format("YYYY-MM-DD");
 
-    const newEndDate = new Date(
-      dateToChange.getFullYear(),
-      dateToChange.getMonth(),
-      dateToChange.getDate() - 15
-    )
-      .toISOString()
-      .slice(0, -1)
-      .split("T")[0];
-
-    handleCurrentDateChange(newEndDate);
-
-    const newStartDate = new Date(
-      dateToChange.getFullYear(),
-      dateToChange.getMonth(),
-      dateToChange.getDate() - 30
-    )
-      .toISOString()
-      .slice(0, -1)
-      .split("T")[0];
+    handleCurrentDateChange(newCurrentDate);
 
     return { newStartDate, newEndDate };
   };

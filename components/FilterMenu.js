@@ -3,6 +3,8 @@ import { useState } from "react";
 import { ChevronDownIcon } from "@heroicons/react/outline";
 import { fetchData, fetchRandomData } from "../services/fetchData";
 import CustomDateForm from "./CustomDateForm";
+import moment from "moment-timezone";
+moment.tz.add("America/New_York|EST EDT EWT EPT|50 40 40 40");
 
 //Simple sorting method selection menu
 //Decided to use @headlessui/react Menu because it provides some nice accessiblity features out of the box, like pressing ESC / clicking outside the menu to close and using arrow keys to navigate
@@ -19,8 +21,8 @@ const FilterMenu = ({
 
   //predefined sortMethods for timeframe selection menu
   const sortMethods = [
-    { name: "Chronological Order", days: 15 },
-    { name: "Random Order", days: null },
+    { name: "Chronological Order" },
+    { name: "Random Order" },
   ];
 
   //function that sets the new inital time range for Chronological Order
@@ -34,28 +36,18 @@ const FilterMenu = ({
       handleCurrentDateChange(null);
     } else {
       //get new start date and end date for query to API
-      const today = new Date(
-        Date.now() - new Date().getTimezoneOffset() * 60000
-      );
-      const prevTime = new Date(
-        today.getFullYear(),
-        today.getMonth(),
-        today.getDate() - sortType.days
-      );
+      const today = moment(new Date()).tz("EST").format();
 
-      //convert those new dates to format YYYY-MM-DD
-      const end_time = today.toISOString().slice(0, -1).split("T")[0];
-      const start_time = prevTime.toISOString().slice(0, -1).split("T")[0];
+      const end_time = moment(new Date()).tz("EST").format("YYYY-MM-DD");
+      const start_time = moment(end_time)
+        .subtract(15, "days")
+        .tz("EST")
+        .format("YYYY-MM-DD");
 
       //call API and set new pictures
       const response = await fetchData(start_time, end_time);
       handleDataChange(response.reverse());
-      handleCurrentDateChange(
-        new Date(Date.now() - new Date().getTimezoneOffset() * 60000)
-          .toISOString()
-          .slice(0, -1)
-          .split("T")[0]
-      );
+      handleCurrentDateChange(today);
     }
 
     handleLoadingChange(false);
@@ -69,6 +61,7 @@ const FilterMenu = ({
   };
 
   //function to compute custom timeframe selection
+  //Decided to use the moment-timezone library with EST timezone setting because that is roughly when NASA uploads their new photos (12am EST) and it will avoid duplicate posts depending on someone's timezone!
   const setCustomTimeInterval = async (event) => {
     event.preventDefault();
 
@@ -77,28 +70,20 @@ const FilterMenu = ({
       return;
     }
 
+    handleLoadingChange(true);
+
     const startDate = new Date(startTime);
-
-    const endDate = new Date(
-      startDate.getFullYear(),
-      startDate.getMonth(),
-      startDate.getDate() - 15
-    );
-
-    const endTime = endDate.toISOString().split("T")[0];
+    const newCurrentDate = moment(startDate).tz("EST").format();
+    const endTime = moment(newCurrentDate)
+      .subtract(15, "days")
+      .tz("EST")
+      .format("YYYY-MM-DD");
 
     const response = await fetchData(endTime, startTime);
 
     handleDataChange(response.reverse());
+    handleCurrentDateChange(newCurrentDate);
 
-    //compensates for current user's timezone, helps to avoid duplicates (at least for those in North America),
-    //would be optimal to instead use the timezone NASA uses for uploading photos, but I'm not 100% sure what that is
-    handleCurrentDateChange(
-      new Date(startDate - new Date().getTimezoneOffset() * 60000)
-        .toISOString()
-        .slice(0, -1)
-        .split("T")[0]
-    );
     handleLoadingChange(false);
 
     setCurrentSortingMethod("Custom");

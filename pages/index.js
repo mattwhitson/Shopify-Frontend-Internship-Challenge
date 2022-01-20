@@ -4,20 +4,22 @@ import { useState } from "react";
 import FilterMenu from "../components/FilterMenu";
 import LoadingIcon from "../components/LoadingIcon";
 import Feed from "../components/Feed";
+import moment from "moment-timezone";
+moment.tz.add("America/New_York|EST EDT EWT EPT|50 40 40 40");
 
 //Fetch inital photos (1 week timeframe) from server for SSR (better SEO and everything is pre-rendered). Using getStaticProps with incremental static regeneration with a revalidation period of 6 hour
 //Unfortunately, it can sometimes take a little bit to load due to NASA's API sometimes being a little slow! haha
 //I decided 16 pictures was an okay number to fetch, I tried higher amounts (ex. 30 pictures) but it seemed to be too slow
 export const getStaticProps = async () => {
-  const today = new Date(Date.now() - new Date().getTimezoneOffset() * 60000);
+  const today = new Date();
   const lastWeek = new Date(
     today.getFullYear(),
     today.getMonth(),
     today.getDate() - 15
   );
 
-  const endTime = today.toISOString().slice(0, -1).split("T")[0];
-  const startTime = lastWeek.toISOString().slice(0, -1).split("T")[0];
+  const endTime = moment(today).tz("EST").format("YYYY-MM-DD");
+  const startTime = moment(lastWeek).tz("EST").format("YYYY-MM-DD");
 
   const response = await axios
     .get(
@@ -30,7 +32,7 @@ export const getStaticProps = async () => {
     props: {
       initalPictures: response.reverse(),
     },
-    revalidate: 60 * 21600, // revalidates every 6 hours
+    revalidate: 60 * 60 * 6, // revalidates every 3 hours
   };
 };
 
@@ -39,13 +41,9 @@ export default function Home({ initalPictures }) {
   const [loading, setLoading] = useState(false);
   const [customDateError, setCustomDateError] = useState(null);
   const [currentDate, setCurrentDate] = useState(
-    new Date(Date.now() - new Date().getTimezoneOffset() * 60000)
-      .toISOString()
-      .slice(0, -1)
-      .split("T")[0]
+    moment(new Date()).tz("EST").format()
   ); //gets the current date and converts it to ISO string while retaining the current timezone
-  //compensates for current user's timezone, helps to avoid duplicates (at least for those in North America),
-  //would be optimal to instead use the timezone NASA uses for uploading photos, but I'm not 100% sure what that is
+  //Decided to use the moment-timezone library with EST timezone because that is roughly when NASA uploads their new photos (12am EST) and it will avoid duplicate posts depending on someone's timezone!
 
   //handles updating of current date to load data from when user loads another page
   const handleCurrentDateChange = (date) => {
