@@ -36,3 +36,9 @@
     background: #555;
   }
 }
+
+@layer utilities {
+  .dark-calendar::-webkit-calendar-picker-indicator {
+    filter: invert(1);
+  }
+}

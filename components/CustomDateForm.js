@@ -12,7 +12,7 @@ const CustomDateForm = ({ setCustomTimeInterval, onStartTimeChange }) => {
         <input
           type="date"
           className="ml-6 bg-[#f7f7f7] text-black
-           p-1 rounded-sm hover:cursor-pointer focus:outline-none darkMode-dark-bg dark:text-[#f7f7f7]"
+           p-1 rounded-sm hover:cursor-pointer focus:outline-none darkMode-dark-bg dark:text-[#f7f7f7] dark:dark-calendar"
           onChange={onStartTimeChange}
         />
       </div>
