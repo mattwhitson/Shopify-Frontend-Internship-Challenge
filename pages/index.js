@@ -39,8 +39,11 @@ export default function Home({ initalPictures }) {
   const [loading, setLoading] = useState(false);
   const [customDateError, setCustomDateError] = useState(null);
   const [currentDate, setCurrentDate] = useState(
-    new Date().toISOString().split("T")[0]
-  );
+    new Date(Date.now() - new Date().getTimezoneOffset() * 60000)
+      .toISOString()
+      .slice(0, -1)
+      .split("T")[0]
+  ); //gets the current date and converts it to ISO string while retaining the current timezone
 
   //handles updating of current date to load data from when user loads another page
   const handleCurrentDateChange = (date) => {
