@@ -22,7 +22,7 @@ const CustomDateForm = ({ setCustomTimeInterval, onStartTimeChange }) => {
             className={`${
               active
                 ? "bg-blue-700 text-[#f7f7f7] dark:bg-blue-800"
-                : "text-white bg-blue-500 dark:bg-blue-700 dark:text-[#f7f7f7]"
+                : "bg-blue-500 dark:bg-blue-700 text-[#f7f7f7]"
             } block mt-1 py-2 px-4 rounded-sm hover:cursor-pointer shadow-blue-500/30`}
             type="submit"
           >

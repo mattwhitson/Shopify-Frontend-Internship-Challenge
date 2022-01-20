@@ -70,6 +70,16 @@ const FilterMenu = ({
       return;
     }
 
+    if (
+      Date.parse(moment(startTime).tz("EST").format()) >
+      Date.parse(moment(new Date()).tz("EST").format())
+    ) {
+      handleDateError(
+        "You cannot enter a date in the future. Please try again."
+      );
+      return;
+    }
+
     handleLoadingChange(true);
 
     const startDate = new Date(startTime);
