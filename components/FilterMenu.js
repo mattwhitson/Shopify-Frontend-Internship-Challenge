@@ -34,7 +34,9 @@ const FilterMenu = ({
       handleCurrentDateChange(null);
     } else {
       //get new start date and end date for query to API
-      const today = new Date();
+      const today = new Date(
+        Date.now() - new Date().getTimezoneOffset() * 60000
+      );
       const prevTime = new Date(
         today.getFullYear(),
         today.getMonth(),
@@ -42,13 +44,20 @@ const FilterMenu = ({
       );
 
       //convert those new dates to format YYYY-MM-DD
-      const end_time = today.toISOString().split("T")[0];
-      const start_time = prevTime.toISOString().split("T")[0];
+      const end_time = today.toISOString().slice(0, -1).split("T")[0];
+      const start_time = prevTime.toISOString().slice(0, -1).split("T")[0];
+
+      console.log(end_time, start_time);
 
       //call API and set new pictures
       const response = await fetchData(start_time, end_time);
       handleDataChange(response.reverse());
-      handleCurrentDateChange(new Date().toISOString().split("T")[0]);
+      handleCurrentDateChange(
+        new Date(Date.now() - new Date().getTimezoneOffset() * 60000)
+          .toISOString()
+          .slice(0, -1)
+          .split("T")[0]
+      );
     }
 
     handleLoadingChange(false);
@@ -70,22 +79,31 @@ const FilterMenu = ({
       return;
     }
 
-    handleLoadingChange(true);
-
     const startDate = new Date(startTime);
 
     const endDate = new Date(
       startDate.getFullYear(),
       startDate.getMonth(),
-      startDate.getDate() - 30
+      startDate.getDate() - 15
     );
+
+    new Date(startDate - new Date().getTimezoneOffset() * 60000)
+      .toISOString()
+      .slice(0, -1)
+      .split("T")[0];
 
     const endTime = endDate.toISOString().split("T")[0];
 
     const response = await fetchData(endTime, startTime);
 
+    console.log(startTime);
     handleDataChange(response.reverse());
-    handleCurrentDateChange(startTime);
+    handleCurrentDateChange(
+      new Date(startDate - new Date().getTimezoneOffset() * 60000)
+        .toISOString()
+        .slice(0, -1)
+        .split("T")[0]
+    );
     handleLoadingChange(false);
 
     setCurrentSortingMethod("Custom");

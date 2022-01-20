@@ -9,15 +9,15 @@ import Feed from "../components/Feed";
 //Unfortunately, it can sometimes take a little bit to load due to NASA's API sometimes being a little slow! haha
 //I decided 16 pictures was an okay number to fetch, I tried higher amounts (ex. 30 pictures) but it seemed to be too slow
 export const getStaticProps = async () => {
-  const today = new Date();
+  const today = new Date(Date.now() - new Date().getTimezoneOffset() * 60000);
   const lastWeek = new Date(
     today.getFullYear(),
     today.getMonth(),
     today.getDate() - 15
   );
 
-  const endTime = today.toISOString().split("T")[0];
-  const startTime = lastWeek.toISOString().split("T")[0];
+  const endTime = today.toISOString().slice(0, -1).split("T")[0];
+  const startTime = lastWeek.toISOString().slice(0, -1).split("T")[0];
 
   const response = await axios
     .get(
@@ -72,6 +72,8 @@ export default function Home({ initalPictures }) {
       setCustomDateError(null);
     }, 5000);
   };
+
+  console.log(currentDate);
 
   //Added meta tags for websites that support link previews!
   return (

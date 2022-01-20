@@ -12,7 +12,11 @@ const useNextPage = (
 
   //Gets new 30 day date range for next page of data, then updates the global current date which keeps track of the next page's date range
   const getNewDates = () => {
-    const dateToChange = new Date(currentDate);
+    const dateTemp = new Date(currentDate);
+
+    const dateToChange = new Date(
+      dateTemp - new Date().getTimezoneOffset() * 60000
+    );
 
     const newEndDate = new Date(
       dateToChange.getFullYear(),
@@ -20,6 +24,7 @@ const useNextPage = (
       dateToChange.getDate() - 15
     )
       .toISOString()
+      .slice(0, -1)
       .split("T")[0];
 
     handleCurrentDateChange(newEndDate);
@@ -30,6 +35,7 @@ const useNextPage = (
       dateToChange.getDate() - 30
     )
       .toISOString()
+      .slice(0, -1)
       .split("T")[0];
 
     return { newStartDate, newEndDate };
