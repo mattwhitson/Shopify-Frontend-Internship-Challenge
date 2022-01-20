@@ -47,8 +47,6 @@ const FilterMenu = ({
       const end_time = today.toISOString().slice(0, -1).split("T")[0];
       const start_time = prevTime.toISOString().slice(0, -1).split("T")[0];
 
-      console.log(end_time, start_time);
-
       //call API and set new pictures
       const response = await fetchData(start_time, end_time);
       handleDataChange(response.reverse());
@@ -87,17 +85,14 @@ const FilterMenu = ({
       startDate.getDate() - 15
     );
 
-    new Date(startDate - new Date().getTimezoneOffset() * 60000)
-      .toISOString()
-      .slice(0, -1)
-      .split("T")[0];
-
     const endTime = endDate.toISOString().split("T")[0];
 
     const response = await fetchData(endTime, startTime);
 
-    console.log(startTime);
     handleDataChange(response.reverse());
+
+    //compensates for current user's timezone, helps to avoid duplicates (at least for those in North America),
+    //would be optimal to instead use the timezone NASA uses for uploading photos, but I'm not 100% sure what that is
     handleCurrentDateChange(
       new Date(startDate - new Date().getTimezoneOffset() * 60000)
         .toISOString()

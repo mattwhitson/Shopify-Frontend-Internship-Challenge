@@ -14,6 +14,8 @@ const useNextPage = (
   const getNewDates = () => {
     const dateTemp = new Date(currentDate);
 
+    //compensates for current user's timezone, helps to avoid duplicates (at least for those in North America),
+    //would be optimal to instead use the timezone NASA uses for uploading photos, but I'm not 100% sure what that is
     const dateToChange = new Date(
       dateTemp - new Date().getTimezoneOffset() * 60000
     );

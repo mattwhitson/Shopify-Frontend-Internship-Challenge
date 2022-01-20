@@ -44,6 +44,8 @@ export default function Home({ initalPictures }) {
       .slice(0, -1)
       .split("T")[0]
   ); //gets the current date and converts it to ISO string while retaining the current timezone
+  //compensates for current user's timezone, helps to avoid duplicates (at least for those in North America),
+  //would be optimal to instead use the timezone NASA uses for uploading photos, but I'm not 100% sure what that is
 
   //handles updating of current date to load data from when user loads another page
   const handleCurrentDateChange = (date) => {
@@ -72,8 +74,6 @@ export default function Home({ initalPictures }) {
       setCustomDateError(null);
     }, 5000);
   };
-
-  console.log(currentDate);
 
   //Added meta tags for websites that support link previews!
   return (
