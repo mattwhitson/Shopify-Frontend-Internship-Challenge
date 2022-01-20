@@ -77,6 +77,7 @@ const FilterMenu = ({
       handleDateError(
         "You cannot enter a date in the future. Please try again."
       );
+      setStartTime(null);
       return;
     }
 
@@ -97,7 +98,6 @@ const FilterMenu = ({
     handleLoadingChange(false);
 
     setCurrentSortingMethod("Custom");
-    setStartTime(null);
   };
 
   //event callback to handle start time input
@@ -152,6 +152,7 @@ const FilterMenu = ({
           <CustomDateForm
             setCustomTimeInterval={setCustomTimeInterval}
             onStartTimeChange={onStartTimeChange}
+            startTime={startTime}
           />
         </Menu.Items>
       </Transition>
